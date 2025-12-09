@@ -1,7 +1,13 @@
-import { useState, useEffect } from 'react';
-import { api } from '@/lib/api';
-import type { User, RegisterRequest, UpdateUserRequest } from '@/types/api';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useState, useEffect } from "react";
+import { api } from "@/lib/api";
+import type { User, RegisterRequest, UpdateUserRequest } from "@/types/api";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -9,7 +15,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 import {
   Dialog,
   DialogContent,
@@ -18,20 +24,20 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { useToast } from '@/components/ui/use-toast';
-import { Users, Mail, Shield, Plus, Pencil, Trash2, Eye } from 'lucide-react';
-import { format } from 'date-fns';
+} from "@/components/ui/select";
+import { useToast } from "@/components/ui/use-toast";
+import { Mail, Shield, Plus, Pencil, Trash2, Eye } from "lucide-react";
+import { format } from "date-fns";
 
 export default function UserManagement() {
   const [users, setUsers] = useState<User[]>([]);
@@ -43,13 +49,13 @@ export default function UserManagement() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState<User | null>(null);
   const [createFormData, setCreateFormData] = useState<RegisterRequest>({
-    email: '',
-    password: '',
-    role: 'CUSTOMER',
+    email: "",
+    password: "",
+    role: "CUSTOMER",
   });
   const [editFormData, setEditFormData] = useState<UpdateUserRequest>({
-    email: '',
-    role: 'CUSTOMER',
+    email: "",
+    role: "CUSTOMER",
   });
   const { toast } = useToast();
 
@@ -63,9 +69,9 @@ export default function UserManagement() {
       setUsers(usersData);
     } catch (error: any) {
       toast({
-        title: 'Error',
-        description: error.response?.data?.message || 'Failed to load users',
-        variant: 'destructive',
+        title: "Error",
+        description: error.response?.data?.message || "Failed to load users",
+        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
@@ -79,9 +85,10 @@ export default function UserManagement() {
       setIsViewDialogOpen(true);
     } catch (error: any) {
       toast({
-        title: 'Error',
-        description: error.response?.data?.message || 'Failed to load user details',
-        variant: 'destructive',
+        title: "Error",
+        description:
+          error.response?.data?.message || "Failed to load user details",
+        variant: "destructive",
       });
     }
   };
@@ -89,9 +96,9 @@ export default function UserManagement() {
   const handleCreateUser = async () => {
     if (!createFormData.email || !createFormData.password) {
       toast({
-        title: 'Error',
-        description: 'Please fill in all required fields',
-        variant: 'destructive',
+        title: "Error",
+        description: "Please fill in all required fields",
+        variant: "destructive",
       });
       return;
     }
@@ -99,17 +106,17 @@ export default function UserManagement() {
     try {
       await api.createUser(createFormData);
       toast({
-        title: 'Success',
-        description: 'User created successfully',
+        title: "Success",
+        description: "User created successfully",
       });
       setIsCreateDialogOpen(false);
-      setCreateFormData({ email: '', password: '', role: 'CUSTOMER' });
+      setCreateFormData({ email: "", password: "", role: "CUSTOMER" });
       loadUsers();
     } catch (error: any) {
       toast({
-        title: 'Error',
-        description: error.response?.data?.message || 'Failed to create user',
-        variant: 'destructive',
+        title: "Error",
+        description: error.response?.data?.message || "Failed to create user",
+        variant: "destructive",
       });
     }
   };
@@ -117,9 +124,9 @@ export default function UserManagement() {
   const handleEditUser = async () => {
     if (!selectedUser || !editFormData.email) {
       toast({
-        title: 'Error',
-        description: 'Please fill in all required fields',
-        variant: 'destructive',
+        title: "Error",
+        description: "Please fill in all required fields",
+        variant: "destructive",
       });
       return;
     }
@@ -127,18 +134,18 @@ export default function UserManagement() {
     try {
       await api.updateUser(selectedUser.id, editFormData);
       toast({
-        title: 'Success',
-        description: 'User updated successfully',
+        title: "Success",
+        description: "User updated successfully",
       });
       setIsEditDialogOpen(false);
       setSelectedUser(null);
-      setEditFormData({ email: '', role: 'CUSTOMER' });
+      setEditFormData({ email: "", role: "CUSTOMER" });
       loadUsers();
     } catch (error: any) {
       toast({
-        title: 'Error',
-        description: error.response?.data?.message || 'Failed to update user',
-        variant: 'destructive',
+        title: "Error",
+        description: error.response?.data?.message || "Failed to update user",
+        variant: "destructive",
       });
     }
   };
@@ -149,17 +156,17 @@ export default function UserManagement() {
     try {
       await api.deleteUser(userToDelete.id);
       toast({
-        title: 'Success',
-        description: 'User deleted successfully',
+        title: "Success",
+        description: "User deleted successfully",
       });
       setIsDeleteDialogOpen(false);
       setUserToDelete(null);
       loadUsers();
     } catch (error: any) {
       toast({
-        title: 'Error',
-        description: error.response?.data?.message || 'Failed to delete user',
-        variant: 'destructive',
+        title: "Error",
+        description: error.response?.data?.message || "Failed to delete user",
+        variant: "destructive",
       });
     }
   };
@@ -175,9 +182,9 @@ export default function UserManagement() {
       setIsEditDialogOpen(true);
     } catch (error: any) {
       toast({
-        title: 'Error',
-        description: error.response?.data?.message || 'Failed to load user',
-        variant: 'destructive',
+        title: "Error",
+        description: error.response?.data?.message || "Failed to load user",
+        variant: "destructive",
       });
     }
   };
@@ -209,7 +216,8 @@ export default function UserManagement() {
             <DialogHeader>
               <DialogTitle>Create New User</DialogTitle>
               <DialogDescription>
-                Create a new user account. Password must be at least 6 characters.
+                Create a new user account. Password must be at least 6
+                characters.
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-4">
@@ -219,7 +227,12 @@ export default function UserManagement() {
                   id="create-email"
                   type="email"
                   value={createFormData.email}
-                  onChange={(e) => setCreateFormData({ ...createFormData, email: e.target.value })}
+                  onChange={(e) =>
+                    setCreateFormData({
+                      ...createFormData,
+                      email: e.target.value,
+                    })
+                  }
                   placeholder="user@example.com"
                 />
               </div>
@@ -229,7 +242,12 @@ export default function UserManagement() {
                   id="create-password"
                   type="password"
                   value={createFormData.password}
-                  onChange={(e) => setCreateFormData({ ...createFormData, password: e.target.value })}
+                  onChange={(e) =>
+                    setCreateFormData({
+                      ...createFormData,
+                      password: e.target.value,
+                    })
+                  }
                   placeholder="••••••••"
                   minLength={6}
                 />
@@ -238,7 +256,7 @@ export default function UserManagement() {
                 <Label htmlFor="create-role">Role</Label>
                 <Select
                   value={createFormData.role}
-                  onValueChange={(value: 'ADMIN' | 'CUSTOMER') =>
+                  onValueChange={(value: "ADMIN" | "CUSTOMER") =>
                     setCreateFormData({ ...createFormData, role: value })
                   }
                 >
@@ -253,7 +271,10 @@ export default function UserManagement() {
               </div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
+              <Button
+                variant="outline"
+                onClick={() => setIsCreateDialogOpen(false)}
+              >
                 Cancel
               </Button>
               <Button onClick={handleCreateUser}>Create</Button>
@@ -281,7 +302,10 @@ export default function UserManagement() {
             <TableBody>
               {users.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center text-muted-foreground">
+                  <TableCell
+                    colSpan={5}
+                    className="text-center text-muted-foreground"
+                  >
                     No users found
                   </TableCell>
                 </TableRow>
@@ -295,18 +319,20 @@ export default function UserManagement() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <span className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${
-                        user.role === 'ADMIN' 
-                          ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' 
-                          : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                      }`}>
+                      <span
+                        className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${
+                          user.role === "ADMIN"
+                            ? "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200"
+                            : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                        }`}
+                      >
                         <Shield className="h-3 w-3" />
                         {user.role}
                       </span>
                     </TableCell>
                     <TableCell>{user.licenses?.length || 0}</TableCell>
                     <TableCell>
-                      {format(new Date(user.createdAt), 'PPp')}
+                      {format(new Date(user.createdAt), "PPp")}
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
@@ -355,47 +381,72 @@ export default function UserManagement() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-medium text-muted-foreground">Email</label>
+                  <label className="text-sm font-medium text-muted-foreground">
+                    Email
+                  </label>
                   <p className="text-sm">{selectedUser.email}</p>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-muted-foreground">Role</label>
+                  <label className="text-sm font-medium text-muted-foreground">
+                    Role
+                  </label>
                   <p className="text-sm">{selectedUser.role}</p>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-muted-foreground">User ID</label>
+                  <label className="text-sm font-medium text-muted-foreground">
+                    User ID
+                  </label>
                   <p className="text-sm font-mono text-xs">{selectedUser.id}</p>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-muted-foreground">Created At</label>
-                  <p className="text-sm">{format(new Date(selectedUser.createdAt), 'PPp')}</p>
+                  <label className="text-sm font-medium text-muted-foreground">
+                    Created At
+                  </label>
+                  <p className="text-sm">
+                    {format(new Date(selectedUser.createdAt), "PPp")}
+                  </p>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-muted-foreground">Updated At</label>
-                  <p className="text-sm">{format(new Date(selectedUser.updatedAt), 'PPp')}</p>
+                  <label className="text-sm font-medium text-muted-foreground">
+                    Updated At
+                  </label>
+                  <p className="text-sm">
+                    {format(new Date(selectedUser.updatedAt), "PPp")}
+                  </p>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-muted-foreground">Total Licenses</label>
-                  <p className="text-sm">{selectedUser.licenses?.length || 0}</p>
+                  <label className="text-sm font-medium text-muted-foreground">
+                    Total Licenses
+                  </label>
+                  <p className="text-sm">
+                    {selectedUser.licenses?.length || 0}
+                  </p>
                 </div>
               </div>
               {selectedUser.licenses && selectedUser.licenses.length > 0 && (
                 <div>
-                  <label className="text-sm font-medium text-muted-foreground mb-2 block">Licenses</label>
+                  <label className="text-sm font-medium text-muted-foreground mb-2 block">
+                    Licenses
+                  </label>
                   <div className="space-y-2">
                     {selectedUser.licenses.map((license) => (
                       <div key={license.id} className="rounded-lg border p-3">
                         <div className="flex items-center justify-between">
                           <code className="text-sm">{license.key}</code>
-                          <span className={`text-xs ${
-                            license.isActive ? 'text-green-600' : 'text-red-600'
-                          }`}>
-                            {license.isActive ? 'Active' : 'Inactive'}
+                          <span
+                            className={`text-xs ${
+                              license.isActive
+                                ? "text-green-600"
+                                : "text-red-600"
+                            }`}
+                          >
+                            {license.isActive ? "Active" : "Inactive"}
                           </span>
                         </div>
                         {license.expiresAt && (
                           <p className="text-xs text-muted-foreground mt-1">
-                            Expires: {format(new Date(license.expiresAt), 'PPp')}
+                            Expires:{" "}
+                            {format(new Date(license.expiresAt), "PPp")}
                           </p>
                         )}
                       </div>
@@ -413,9 +464,7 @@ export default function UserManagement() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Edit User</DialogTitle>
-            <DialogDescription>
-              Update user information
-            </DialogDescription>
+            <DialogDescription>Update user information</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
@@ -424,7 +473,9 @@ export default function UserManagement() {
                 id="edit-email"
                 type="email"
                 value={editFormData.email}
-                onChange={(e) => setEditFormData({ ...editFormData, email: e.target.value })}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, email: e.target.value })
+                }
                 placeholder="user@example.com"
               />
             </div>
@@ -432,7 +483,7 @@ export default function UserManagement() {
               <Label htmlFor="edit-role">Role</Label>
               <Select
                 value={editFormData.role}
-                onValueChange={(value: 'ADMIN' | 'CUSTOMER') =>
+                onValueChange={(value: "ADMIN" | "CUSTOMER") =>
                   setEditFormData({ ...editFormData, role: value })
                 }
               >
@@ -447,7 +498,10 @@ export default function UserManagement() {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setIsEditDialogOpen(false)}
+            >
               Cancel
             </Button>
             <Button onClick={handleEditUser}>Save Changes</Button>
@@ -461,7 +515,8 @@ export default function UserManagement() {
           <DialogHeader>
             <DialogTitle>Delete User</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this user? This action cannot be undone.
+              Are you sure you want to delete this user? This action cannot be
+              undone.
             </DialogDescription>
           </DialogHeader>
           {userToDelete && (
@@ -474,13 +529,17 @@ export default function UserManagement() {
               </p>
               {userToDelete.licenses && userToDelete.licenses.length > 0 && (
                 <p className="text-sm mt-2 text-destructive">
-                  <strong>Warning:</strong> This user has {userToDelete.licenses.length} license(s) associated.
+                  <strong>Warning:</strong> This user has{" "}
+                  {userToDelete.licenses.length} license(s) associated.
                 </p>
               )}
             </div>
           )}
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setIsDeleteDialogOpen(false)}
+            >
               Cancel
             </Button>
             <Button variant="destructive" onClick={handleDeleteUser}>
